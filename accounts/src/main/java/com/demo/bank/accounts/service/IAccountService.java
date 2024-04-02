@@ -16,4 +16,12 @@ public interface IAccountService {
      * @return AccountDto
      */
     public AccountDto getByCustomerMobileNumber(String mobileNumber);
+
+    /**
+     * Updated any field of account except its account number
+     * @param accountNumber - Account number of the account
+     * @param accountDto - DTO containing new field values
+     * @return
+     */
+    public AccountDto updateAccount(Long accountNumber, AccountDto accountDto);
 }

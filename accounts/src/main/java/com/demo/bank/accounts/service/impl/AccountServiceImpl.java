@@ -11,6 +11,7 @@ import com.demo.bank.accounts.dto.AccountDto;
 import com.demo.bank.accounts.dto.CustomerDto;
 import com.demo.bank.accounts.entity.Account;
 import com.demo.bank.accounts.entity.Customer;
+import com.demo.bank.accounts.exception.AccountNumberMismatchException;
 import com.demo.bank.accounts.exception.CustomerAlreadyExistsException;
 import com.demo.bank.accounts.exception.ResourceNotFoundException;
 import com.demo.bank.accounts.mapper.AccountMapper;
@@ -36,7 +37,8 @@ public class AccountServiceImpl implements IAccountService {
         );
         if (optionalCustomer.isPresent()) {
             throw new CustomerAlreadyExistsException(
-                ExceptionMessages.CUSTOMER_MOBILE_NUMBER_EXISTS);
+                ExceptionMessages.CUSTOMER_MOBILE_NUMBER_EXISTS 
+                + customerDto.getMobileNumber());
         }
 
         Customer savedCustomer = customerRepository.save(customer);
@@ -71,6 +73,58 @@ public class AccountServiceImpl implements IAccountService {
         accountDto.setCustomerDto(CustomerMapper.mapToCustomerDto(customer, new CustomerDto()));
 
         return accountDto;
+    }
+
+    @Override
+    public AccountDto updateAccount(Long accountNumber, AccountDto accountDto) {
+        Account account = accountRepository.findById(accountNumber).orElseThrow(
+            () -> new ResourceNotFoundException(
+                "Account", "accountNumber", 
+                Long.toString(accountNumber))
+        );
+        if (accountDto.getAccountNumber() != null &&
+            accountDto.getAccountNumber().compareTo(accountNumber) != 0) {
+            throw new AccountNumberMismatchException(
+                String.format(ExceptionMessages.ACCOUNT_NUMBER_MISMATCH, 
+                accountNumber, accountDto.getAccountNumber()));
+        }
+
+        Account accountNew = AccountMapper.mapToAccount(accountDto, new Account());
+        if (accountNew.getAccountType() != null) {
+            account.setAccountType(accountNew.getAccountType());
+        }
+        if (accountNew.getBranchAddress() != null) {
+            account.setBranchAddress(accountNew.getBranchAddress());
+        }
+
+        if (accountDto.getCustomerDto() != null) {
+            Customer customerNew = CustomerMapper.mapToCustomer(accountDto.getCustomerDto(), new Customer());
+            Customer customer = customerRepository.findById(account.getCustomerId()).orElseThrow(
+                () -> new ResourceNotFoundException(
+                    "Customer", "customerId", 
+                    Long.toString(account.getCustomerId()))
+            );
+            if (customerNew.getEmail() != null) {
+                customer.setEmail(customerNew.getEmail());
+            }
+            if (customerNew.getMobileNumber() != null) {
+                customer.setEmail(customerNew.getEmail());
+            }
+            if (customerNew.getName() != null) {
+                customer.setName(customerNew.getName());
+            }
+            customerRepository.save(customer);
+        }
+        accountRepository.save(account);
+
+        AccountDto accountDtoNew = AccountMapper.mapToAccountDto(account, new AccountDto());
+        Customer customerNew = customerRepository.findById(account.getCustomerId()).orElseThrow(
+            () -> new ResourceNotFoundException(
+                "Customer", "customerId", 
+                Long.toString(account.getCustomerId()))
+        );
+        accountDtoNew.setCustomerDto(CustomerMapper.mapToCustomerDto(customerNew, new CustomerDto()));
+        return accountDtoNew;
     }
 
 }

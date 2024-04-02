@@ -16,7 +16,6 @@ import com.demo.bank.accounts.constants.SuccessMessages;
 import com.demo.bank.accounts.dto.AccountDto;
 import com.demo.bank.accounts.dto.CustomerDto;
 import com.demo.bank.accounts.dto.ResponseDto;
-import com.demo.bank.accounts.entity.Account;
 import com.demo.bank.accounts.service.IAccountService;
 
 import lombok.AllArgsConstructor;
@@ -49,5 +48,16 @@ public class AccountsController {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(accountDto);
+    }
+
+    @PutMapping("/accounts/{accountNumber}")
+    public ResponseEntity<AccountDto> updateAccount(
+        @PathVariable(name = "accountNumber") Long accountNumber,
+        @RequestBody AccountDto accountDto
+    ) {
+        AccountDto accountDtoNew = iAccountService.updateAccount(accountNumber, accountDto);
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(accountDtoNew);
     }
 }
