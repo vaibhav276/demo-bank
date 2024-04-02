@@ -24,4 +24,11 @@ public interface IAccountService {
      * @return
      */
     public AccountDto updateAccount(Long accountNumber, AccountDto accountDto);
+
+    /**
+     * Delete an account and associated customer by mobile number
+     * @param mobileNumber
+     * @return boolean - indicating if the deletion was successful
+     */
+    public boolean deleteByCustomerMobileNumber(String mobileNumber);
 }

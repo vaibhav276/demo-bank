@@ -43,7 +43,7 @@ Transfer-Encoding: chunked
 }
 ```
 
-## Updating account (mis-matching account number)
+## Updating account
 ```sh
 http PUT :8080/api/v1/accounts/1834362036 customerDto:='{"name": "Peter Pan", "email":"peter@pan.c
 om"}'
@@ -63,5 +63,21 @@ Transfer-Encoding: chunked
         "mobileNumber": "123456",
         "name": "Peter Pan"
     }
+}
+```
+
+## Deleting account
+```sh
+http DELETE :8080/api/v1/accounts?mobileNumber=123456
+HTTP/1.1 200 
+Connection: keep-alive
+Content-Type: application/json
+Date: Tue, 02 Apr 2024 14:45:39 GMT
+Keep-Alive: timeout=60
+Transfer-Encoding: chunked
+
+{
+    "statusCode": "200 OK",
+    "statusMsg": "Account Deleted"
 }
 ```
