@@ -6,10 +6,10 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
 
 @Component("auditAwareImpl")
-public class AuditAwareImpl implements AuditorAware {
+public class AuditAwareImpl implements AuditorAware<String> {
 
     @Override
-    public Optional getCurrentAuditor() {
+    public Optional<String> getCurrentAuditor() {
         return Optional.of("ACCOUNTS_MS"); // TODO: Use actual logged-in username
     }
     
