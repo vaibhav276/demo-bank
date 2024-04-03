@@ -83,7 +83,7 @@ public class AccountServiceImpl implements IAccountService {
                 Long.toString(accountNumber))
         );
         if (accountDto.getAccountNumber() != null &&
-            accountDto.getAccountNumber().compareTo(accountNumber) != 0) {
+            accountDto.getAccountNumber().compareTo(Long.toString(accountNumber)) != 0) {
             throw new AccountNumberMismatchException(
                 String.format(ExceptionMessages.ACCOUNT_NUMBER_MISMATCH, 
                 accountNumber, accountDto.getAccountNumber()));

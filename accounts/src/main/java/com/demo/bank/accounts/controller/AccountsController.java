@@ -3,6 +3,7 @@ package com.demo.bank.accounts.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,18 +20,21 @@ import com.demo.bank.accounts.dto.CustomerDto;
 import com.demo.bank.accounts.dto.ResponseDto;
 import com.demo.bank.accounts.service.IAccountService;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping(path = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
+@Validated
 public class AccountsController {
 
     IAccountService iAccountService;
 
     @PostMapping("/accounts")
     public ResponseEntity<ResponseDto> createAccount(
-        @RequestBody CustomerDto customerDto
+        @Valid @RequestBody CustomerDto customerDto
     ) {
 
         iAccountService.createAccount(customerDto);
@@ -43,7 +47,9 @@ public class AccountsController {
 
     @GetMapping("/accounts")
     public ResponseEntity<AccountDto> getAccountByCustomerMobileNumber(
-        @RequestParam String mobileNumber
+        @RequestParam
+        @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
+            String mobileNumber
     ) {
         AccountDto accountDto = iAccountService.getByCustomerMobileNumber(mobileNumber);
         return ResponseEntity
@@ -54,7 +60,7 @@ public class AccountsController {
     @PutMapping("/accounts/{accountNumber}")
     public ResponseEntity<AccountDto> updateAccount(
         @PathVariable(name = "accountNumber") Long accountNumber,
-        @RequestBody AccountDto accountDto
+        @Valid @RequestBody AccountDto accountDto
     ) {
         AccountDto accountDtoNew = iAccountService.updateAccount(accountNumber, accountDto);
         return ResponseEntity
@@ -64,7 +70,9 @@ public class AccountsController {
 
     @DeleteMapping("/accounts")
     public ResponseEntity<ResponseDto> deleteAccountByCustomerMobileNumber(
-        @RequestParam String mobileNumber
+        @RequestParam
+        @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
+            String mobileNumber
     ) {
         boolean isDeleted = iAccountService.deleteByCustomerMobileNumber(mobileNumber);
         if (isDeleted) {
