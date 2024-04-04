@@ -1,8 +1,8 @@
 server:
-  port: 8070
+  port: 8080
 spring:
   datasource:
-    url: jdbc:h2:mem:accountsdb
+    url: jdbc:h2:mem:cardsdb
     driverClassName: org.h2.Driver
     username: sa
     password: ''
