@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.List;
 
-@ConfigurationProperties(prefix = "contact")
+@ConfigurationProperties(prefix = "loans")
 public record ContactInfoDto(
     String message,
     Map<String, String> contactDetails, 
