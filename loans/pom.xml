@@ -18,7 +18,7 @@
 		<dockerImageName>demo-bank-${project.artifactId}</dockerImageName>
 		<dockerImageTag>0.1.0</dockerImageTag>
 		<java.version>17</java.version>
-    	<spring-cloud.version>2023.0.1</spring-cloud.version>
+    	<spring-cloud.version>2023.0.0</spring-cloud.version>
 	</properties>
 
 	<dependencyManagement>
