@@ -4,25 +4,8 @@
 The service docker images can be built using these commands
 
 ```sh
-cd accounts/
 mvn clean package
 mvn compile jib:dockerBuild
-cd ..
-
-cd loans/
-mvn clean package
-mvn compile jib:dockerBuild
-cd ..
-
-cd cards/
-mvn clean package
-mvn compile jib:dockerBuild
-cd ..
-
-cd configserver/
-mvn clean package
-mvn compile jib:dockerBuild
-cd ..
 ```
 
 ## Run
