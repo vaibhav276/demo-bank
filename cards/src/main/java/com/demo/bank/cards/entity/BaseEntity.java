@@ -33,5 +33,5 @@ public class BaseEntity {
 
     @Column(insertable = false)
     @LastModifiedDate
-    private LocalDateTime updateAt;
+    private LocalDateTime updatedAt;
 }
