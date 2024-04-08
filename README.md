@@ -1,4 +1,49 @@
 # Demo bank
+This is a project to demo a group of microservices and infrastructure components, mainly using Spring ecosystem projects.
+
+## Architecture
+There are three main business services:
+* [Accounts](./accounts/)
+* [Loans](./loans/)
+* [Cards](./cards/)
+
+### Database and stores
+* [H2](https://h2database.com/html/main.html) - for quick testing
+* [MySQL](https://www.mysql.com/) - for actual deployment
+
+> [!info] branch: mysql
+>
+> A separate branch is maintained for MySQL based architecture
+
+### API documentation
+APIs are documented using Open API specs, automatically generated using [Spring DOC](https://springdoc.org/). Consequently, API documents in swagger format are exposed on respective ports where services run.
+
+### Externalized configurations
+Configurations are externalized by building a separate Config Server. It is inside the `configserver` directory and uses [Spring Cloud Config](https://spring.io/projects/spring-cloud-config)
+
+### Dynamic configuration updates
+Configuration of the microservices in maintained in a separate repository: https://github.com/vaibhav276/demo-bank-config
+
+The Config server microservice automatically updates itself when there are changes in the config repo.
+
+[RabbitMQ](https://www.rabbitmq.com/) is used as queuing service to relay configuration updates to all microservices.
+
+> [!info] branch: `rabbitmq-busrefresh`
+> 
+> A separate branch is maintained for RabbitMQ based busrefresh architecture.
+
+### Management APIs
+Production ready management APIs (health checks, config refresh etc.) are exposed using [Spring boot actuator](https://docs.spring.io/spring-boot/docs/2.5.6/reference/html/actuator.html)
+
+### Containerization
+[Google Jib](https://cloud.google.com/java/getting-started/jib) is used to build docker containers of all microservices.
+
+### Infrastructure as Code (IaC)
+IaC is maintained using [Docker compose](https://docs.docker.com/compose/). There are three profiles of running the entire suite of microservices - prod, qa and default. These profiles are maintained in following docker compose directories:
+* `docker-compose/prod`
+* `docker-compose/default`
+* `docker-compose/qa`
+
 
 ## Build
 The service docker images can be built using these commands
