@@ -85,11 +85,3 @@ Transfer-Encoding: chunked
     "version": "27f643d95aa3149dda6e7d2aed33199b761e4438"
 }
 ```
-
-### Testing config updates
-RabbitMQ is used to trigger config updates in all services when a change in made in Config Server. The Config server automatically updates itself when the github config repo (https://github.com/vaibhav276/demo-bank-config) is updated. So the typical steps to test a config update would be
-
-1. Update config in https://github.com/vaibhav276/demo-bank-config
-2. Verify that the updated config is picked up by Config server. Run `http :8071/{service}/{profile}` to get its config from Config server.
-3. Run `http :8071/actuator/busupdate` to relay the updates to all business services
-4. Verify that the business services have got the updated config. This can be done by executing APIs like `http :8080/api/v1/info/config` (For example, for accounts service)
