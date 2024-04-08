@@ -3,6 +3,7 @@ package com.demo.bank.accounts;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.demo.bank.accounts.dto.ContactInfoDto;
@@ -16,6 +17,7 @@ import io.swagger.v3.oas.annotations.info.License;
 @SpringBootApplication
 @EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")
 @EnableConfigurationProperties(value = {ContactInfoDto.class})
+@EnableFeignClients
 @OpenAPIDefinition(
 	info = @Info(
 		title = "Accounts service REST API Documentation",

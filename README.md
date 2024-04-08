@@ -44,6 +44,10 @@ IaC is maintained using [Docker compose](https://docs.docker.com/compose/). Ther
 * `docker-compose/default`
 * `docker-compose/qa`
 
+### Service Discovery
+Service discovery is implemented using [Spring Cloud Netflix - Eureka Server](https://spring.io/projects/spring-cloud-netflix), where each service registers with the Eureka server and sends periodic heartbeats.
+
+To enable service-to-service communication, [Spring Cloud OpenFeign](https://spring.io/projects/spring-cloud-openfeign) is used, where a client looks for other services on the Eureka Server using its name. And the OpenFeign implementation provides REST API calling mechanism internally.
 
 ## Build
 The service docker images can be built using these commands
