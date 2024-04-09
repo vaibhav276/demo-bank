@@ -44,13 +44,16 @@ IaC is maintained using [Docker compose](https://docs.docker.com/compose/). Ther
 * `docker-compose/default`
 * `docker-compose/qa`
 
-### Service Discovery
+### Service Registration and Discovery
 Service discovery is implemented using [Spring Cloud Netflix - Eureka Server](https://spring.io/projects/spring-cloud-netflix), where each service registers with the Eureka server and sends periodic heartbeats.
 
 To enable service-to-service communication, [Spring Cloud OpenFeign](https://spring.io/projects/spring-cloud-openfeign) is used, where a client looks for other services on the Eureka Server using its name. And the OpenFeign implementation provides REST API calling mechanism internally.
 
 ### Load balancing
 Client side load balancing is provided by [Spring Cloud OpenFeign](https://spring.io/projects/spring-cloud-openfeign).
+
+### API Gateway
+API gateway is implemented using [Spring Cloud Gateway](https://spring.io/projects/spring-cloud-gateway)
 
 ## Deployment
 ### Build
@@ -77,14 +80,13 @@ docker compose down
 
 ## Testing
 ### Business services
-The swagger UI for each service is exposed as follows, and can be used for manual testing the APIs
+The swagger UI for each service is exposed as follows, and can be used for manually testing the APIs
 * Accounts - http://localhost:8080/swagger-ui/index.html
 * Loans - http://localhost:8090/swagger-ui/index.html
 * Cards - http://localhost:9000/swagger-ui/index.html
 
 ### Config server
-The config server is exposed at
-http://localhost:8071/
+The config server is exposed at - http://localhost:8071/
 
 Each service's configuration is available at corresponding paths in config server. For example, `accounts` service `default` config is available as:
 
@@ -129,3 +131,9 @@ RabbitMQ is used to trigger config updates in all services when a change in made
 2. Verify that the updated config is picked up by Config server. Run `http :8071/{service}/{profile}` to get its config from Config server.
 3. Run `http :8071/actuator/busupdate` to relay the updates to all business services
 4. Verify that the business services have got the updated config. This can be done by executing APIs like `http :8080/api/v1/info/config` (For example, for accounts service)
+
+### Eureka Server
+Eureka Server is exposed at - http://localhost:8070/eureka
+
+### Gateway server
+The gateway server routes are exposed at - http://localhost:8072/actuator/gateway/routes

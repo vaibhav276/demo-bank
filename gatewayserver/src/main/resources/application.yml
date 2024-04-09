@@ -1,0 +1,43 @@
+server:
+  port: 8072
+
+spring:
+  application:
+    name: gatewayserver
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+
+  # Connect to discovery (eureka) server and locate the microservices
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+          lowerCaseServiceId: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  info:
+    env:
+      enabled: true
+  endpoint:
+    gateway:
+      enabled: true
+
+eureka:
+  instance:
+    preferIpAddress: true # When DNS names are not available
+  client:
+    fetchRegistry: true # Default
+    registerWithEureka: true # Default
+    serviceUrl:
+      defaultZone: http://localhost:8070/eureka/ # Eureka server URL
+
+info:
+  app:
+    name: gateway
+    description: Demo bank gateway service
+    version: 0.4.0

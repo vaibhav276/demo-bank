@@ -15,6 +15,7 @@
         <module>cards</module>
         <module>configserver</module>
         <module>eurekaserver</module>
+        <module>gatewayserver</module>
     </modules>
 
     <build>
