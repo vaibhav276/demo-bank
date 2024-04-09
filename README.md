@@ -49,7 +49,11 @@ Service discovery is implemented using [Spring Cloud Netflix - Eureka Server](ht
 
 To enable service-to-service communication, [Spring Cloud OpenFeign](https://spring.io/projects/spring-cloud-openfeign) is used, where a client looks for other services on the Eureka Server using its name. And the OpenFeign implementation provides REST API calling mechanism internally.
 
-## Build
+### Load balancing
+Client side load balancing is provided by [Spring Cloud OpenFeign](https://spring.io/projects/spring-cloud-openfeign).
+
+## Deployment
+### Build
 The service docker images can be built using these commands
 
 ```sh
@@ -57,7 +61,7 @@ mvn clean package
 mvn compile jib:dockerBuild
 ```
 
-## Run
+### Run
 Run the following command to bring all services up
 
 ```sh
@@ -71,7 +75,7 @@ cd docker-compose/{profile}/
 docker compose down
 ```
 
-## Test
+## Testing
 ### Business services
 The swagger UI for each service is exposed as follows, and can be used for manual testing the APIs
 * Accounts - http://localhost:8080/swagger-ui/index.html
