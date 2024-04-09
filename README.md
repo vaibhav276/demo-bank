@@ -78,7 +78,7 @@ cd docker-compose/{profile}/
 docker compose down
 ```
 
-## Testing
+## Manual Testing
 ### Business services
 The swagger UI for each service is exposed as follows, and can be used for manually testing the APIs
 * Accounts - http://localhost:8080/swagger-ui/index.html
@@ -137,3 +137,6 @@ Eureka Server is exposed at - http://localhost:8070/eureka
 
 ### Gateway server
 The gateway server routes are exposed at - http://localhost:8072/actuator/gateway/routes
+
+## Automated Testing
+A basic test script using [Httpie](https://httpie.io/docs) and [Jq](https://jqlang.github.io/jq/) can be found inside `e2e-test/` directory
