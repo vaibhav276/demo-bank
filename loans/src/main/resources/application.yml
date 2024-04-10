@@ -29,9 +29,17 @@ management:
   info:
     env:
       enabled: true
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
   endpoint:
     shutdown:
       enabled: true # Enable an actuator endpoint to manually shutdown the service (for testing)
+    health:
+      probes:
+        enabled: true
 
 eureka:
   instance:
@@ -47,7 +55,7 @@ info:
   app:
     name: loans
     description: Demo bank loans service
-    version: 0.4.0
+    version: 0.5.0
 
 endpoints:
   shutdown:
