@@ -1,5 +1,7 @@
 package com.demo.bank.accounts.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.bank.accounts.dto.ContactInfoDto;
 
+import io.github.resilience4j.retry.annotation.Retry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -29,6 +32,8 @@ public class InfoController {
     @Autowired
     private ContactInfoDto contactInfoDto;
 
+    public static final Logger logger = LoggerFactory.getLogger(InfoController.class);
+
     @Operation(
         summary = "Get Build info"
     )
@@ -43,10 +48,23 @@ public class InfoController {
     }
     )
     @GetMapping("/info/build")
+    @Retry(name = "getBuildInfo", fallbackMethod = "getBuildInfoFallback")
     public ResponseEntity<String> getBuildInfo() {
+
+        logger.debug("getBuildInfo() invoked");
+
         return ResponseEntity
             .ok()
             .body(buildVersion);
+    }
+
+    public ResponseEntity<String> getBuildInfoFallback(Throwable throwable) {
+
+        logger.debug("getBuildInfoFallback() invoked");
+
+        return ResponseEntity
+            .ok()
+            .body("0.0"); // fallback version
     }
 
     @Operation(

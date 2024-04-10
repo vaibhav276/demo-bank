@@ -68,7 +68,9 @@ Circuit breakers are implemented using [Resilience4j](https://resilience4j.readm
 Request timeouts are globally configured in Gateway server
 
 #### Retries
-Gateway server automatically retries for `/info/build` endpoint of Loan service if there is any error or timeout event
+* Gateway server automatically retries for `/info/build` endpoint of Loan service if there is any error or timeout event
+* Account server's `/info/build` endpoint has retry fallback method defined over it
+* Gateway server has configuration to make sure circuit breaker timeout is greater than retry timeout
 
 ## Deployment
 ### Build
