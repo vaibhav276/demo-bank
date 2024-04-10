@@ -58,6 +58,11 @@ API gateway is implemented using [Spring Cloud Gateway](https://spring.io/projec
 ### Distributed Request Tracing
 A correlation ID is added to header of each request in Gateway server code (all requests go through it), and also in all services so that a request can be traced using logging.
 
+### Resilience
+#### Circuit Breaker Pattern
+Circuit breakers are implemented using [Resilience4j](https://resilience4j.readme.io/docs/circuitbreaker) in:
+* Gateway Server
+
 ## Deployment
 ### Build
 The service docker images can be built using these commands
@@ -140,6 +145,7 @@ Eureka Server is exposed at - http://localhost:8070/eureka
 
 ### Gateway server
 The gateway server routes are exposed at - http://localhost:8072/actuator/gateway/routes
+The gateway server circuit breakers are exposed at - http://localhost:8072/actuator/circuitbreakers
 
 ## Automated Testing
 A basic test script using [Httpie](https://httpie.io/docs) and [Jq](https://jqlang.github.io/jq/) can be found inside `e2e-test/` directory

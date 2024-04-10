@@ -31,7 +31,7 @@ public class CustomerDetailsService implements ICustomerDetailsService {
     @Override
     public CustomerDetailsDto getByMobileNumber(String correlationId, String mobileNumber) {
 
-        logger.debug("[{}]: Getting details from downstream services by mobile number {}", correlationId, mobileNumber);
+        logger.debug("[{}]: Getting details from upstream services by mobile number {}", correlationId, mobileNumber);
 
         AccountDto accountDto = iAccountService.getByCustomerMobileNumber(mobileNumber);
         ResponseEntity<CardDto> responseEntityCardDto = cardsFeignClient.getByMobileNumber(correlationId, mobileNumber);
