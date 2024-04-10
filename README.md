@@ -55,6 +55,9 @@ Client side load balancing is provided by [Spring Cloud OpenFeign](https://sprin
 ### API Gateway
 API gateway is implemented using [Spring Cloud Gateway](https://spring.io/projects/spring-cloud-gateway)
 
+### Distributed Request Tracing
+A correlation ID is added to header of each request in Gateway server code (all requests go through it), and also in all services so that a request can be traced using logging.
+
 ## Deployment
 ### Build
 The service docker images can be built using these commands
