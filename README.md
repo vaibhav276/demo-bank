@@ -67,6 +67,9 @@ Circuit breakers are implemented using [Resilience4j](https://resilience4j.readm
 #### Timeouts
 Request timeouts are globally configured in Gateway server
 
+#### Retries
+Gateway server automatically retries for `/info/build` endpoint of Loan service if there is any error or timeout event
+
 ## Deployment
 ### Build
 The service docker images can be built using these commands
