@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.demo.bank.loans.constants.LoanConstants;
 import com.demo.bank.loans.constants.SuccessMessages;
 import com.demo.bank.loans.dto.ErrorResponseDto;
 import com.demo.bank.loans.dto.LoanDto;
@@ -99,9 +101,11 @@ public class LoansController {
     )
     @GetMapping("/loans")
     public ResponseEntity<LoanDto> getByMobileNumber(
+        @RequestHeader(name = LoanConstants.CORRELATION_ID_HDR) String correlationId,
+
         @Pattern(regexp = "^$|[0-9]{10}", message = "Mobile number must be 10 digits")
         @RequestParam String mobileNumber) {
-        LoanDto loanDto = iLoanService.getByMobileNumber(mobileNumber);
+        LoanDto loanDto = iLoanService.getByMobileNumber(correlationId, mobileNumber);
 
         return ResponseEntity
             .status(HttpStatus.OK)

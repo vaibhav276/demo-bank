@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.demo.bank.cards.constants.CardConstants;
 import com.demo.bank.cards.constants.ExceptionMessages;
 import com.demo.bank.cards.constants.SuccessMessages;
 import com.demo.bank.cards.dto.CardDto;
@@ -101,10 +103,12 @@ public class CardsController {
     )
     @GetMapping("/cards")
     public ResponseEntity<CardDto> getByMobileNumber(
+        @RequestHeader(name = CardConstants.CORRELATION_ID_HDR) String correlationId,
+
         @Valid
         @Pattern(regexp = "^$|[0-9]{10}", message = "Mobile number must be 10 digits")
         @RequestParam String mobileNumber) {
-        CardDto cardDto = iCardService.getByMobileNumber(mobileNumber);
+        CardDto cardDto = iCardService.getByMobileNumber(correlationId, mobileNumber);
 
         return ResponseEntity
             .status(HttpStatus.OK)

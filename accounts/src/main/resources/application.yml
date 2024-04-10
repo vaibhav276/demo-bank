@@ -52,3 +52,10 @@ info:
 endpoints:
   shutdown:
     enabled: true
+
+logging:
+  level:
+    com:
+      demo:
+        bank:
+          accounts: DEBUG

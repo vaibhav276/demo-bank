@@ -3,6 +3,8 @@ package com.demo.bank.loans.service.impl;
 import java.util.Optional;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.demo.bank.loans.constants.LoanConstants;
@@ -21,6 +23,8 @@ import lombok.AllArgsConstructor;
 public class LoanServiceImpl implements ILoanService {
 
     LoansRepository loansRepository;
+
+    public static final Logger logger = LoggerFactory.getLogger(LoanServiceImpl.class);
 
     @Override
     public void createLoan(String mobileNumber) {
@@ -46,7 +50,10 @@ public class LoanServiceImpl implements ILoanService {
     }
 
     @Override
-    public LoanDto getByMobileNumber(String mobileNumber) {
+    public LoanDto getByMobileNumber(String correlationId, String mobileNumber) {
+
+        logger.debug("[{}]: Getting loan for mobile number {}", correlationId, mobileNumber);
+
         Loan loan = loansRepository.findByMobileNumber(mobileNumber).orElseThrow(
             () -> new ResourceNotFoundException("Loan", "mobileNumber", mobileNumber)
         );

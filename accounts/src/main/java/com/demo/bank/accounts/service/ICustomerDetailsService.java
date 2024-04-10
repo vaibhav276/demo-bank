@@ -8,5 +8,5 @@ public interface ICustomerDetailsService {
      * @param mobileNumber
      * @return CustomerDetailsDto
      */
-    CustomerDetailsDto getByMobileNumber(String mobileNumber);
+    CustomerDetailsDto getByMobileNumber(String correlationId, String mobileNumber);
 }

@@ -12,7 +12,7 @@ public interface ILoanService {
      * @param mobileNumber
      * @return LoanDto - Details of Loan
      */
-    LoanDto getByMobileNumber(String mobileNumber);
+    LoanDto getByMobileNumber(String correlationId, String mobileNumber);
 
     /**
      * @param loanDto

@@ -3,6 +3,8 @@ package com.demo.bank.cards.service.impl;
 import java.util.Optional;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.demo.bank.cards.constants.CardConstants;
@@ -21,6 +23,8 @@ import lombok.AllArgsConstructor;
 public class CardService implements ICardService {
 
     CardsRepository cardsRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(CardService.class);
 
     @Override
     public void createCard(String mobileNumber) {
@@ -50,7 +54,10 @@ public class CardService implements ICardService {
     }
 
     @Override
-    public CardDto getByMobileNumber(String mobileNumber) {
+    public CardDto getByMobileNumber(String correlationId, String mobileNumber) {
+
+        logger.debug("[{}]: Getting card by mobile number {}", correlationId, mobileNumber);
+
         Card card = cardsRepository.findByMobileNumber(mobileNumber).orElseThrow(
             () -> new ResourceNotFoundException("Card", "mobileNumber", mobileNumber)
         );

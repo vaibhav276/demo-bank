@@ -4,10 +4,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.demo.bank.accounts.constants.AccountsConstants;
 import com.demo.bank.accounts.dto.CustomerDetailsDto;
 import com.demo.bank.accounts.dto.ErrorResponseDto;
 import com.demo.bank.accounts.service.ICustomerDetailsService;
@@ -52,11 +54,12 @@ public class CustomerDetailsController {
     )
     @GetMapping("/customers")
     public ResponseEntity<CustomerDetailsDto> getCustomerDetailsByMobileNumber(
+        @RequestHeader(name = AccountsConstants.CORRELATION_ID_HDR) String correlationId,
         @RequestParam
         @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
             String mobileNumber
     ) {
-        CustomerDetailsDto customerDetailsDto = iCustomerDetailsService.getByMobileNumber(mobileNumber);
+        CustomerDetailsDto customerDetailsDto = iCustomerDetailsService.getByMobileNumber(correlationId, mobileNumber);
         return ResponseEntity
             .ok()
             .body(customerDetailsDto);

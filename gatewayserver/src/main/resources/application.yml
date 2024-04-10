@@ -41,3 +41,10 @@ info:
     name: gateway
     description: Demo bank gateway service
     version: 0.4.0
+
+logging:
+  level:
+    com:
+      demo:
+        bank:
+          gatewayserver: DEBUG

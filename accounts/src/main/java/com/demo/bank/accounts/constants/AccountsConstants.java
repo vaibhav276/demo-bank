@@ -7,4 +7,5 @@ public final class AccountsConstants {
     // Dummy details for testing
     public static final String ACCOUNT_DUMMY_BRANCH_ADDR = "123 Dummy Street, Dummy Town";
 
+    public static final String CORRELATION_ID_HDR = "X-DemoBank-Correlation-ID";
 }

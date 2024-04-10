@@ -12,7 +12,7 @@ public interface ICardService {
      * @param mobileNumber
      * @return CardDto
      */
-    CardDto getByMobileNumber(String mobileNumber);
+    CardDto getByMobileNumber(String correlationId, String mobileNumber);
 
     /**
      * @param cardDto

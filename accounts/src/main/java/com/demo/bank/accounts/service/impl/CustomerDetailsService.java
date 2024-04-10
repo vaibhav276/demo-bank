@@ -1,5 +1,7 @@
 package com.demo.bank.accounts.service.impl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +26,16 @@ public class CustomerDetailsService implements ICustomerDetailsService {
     LoansFeignClient loansFeignClient;
     IAccountService iAccountService;
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomerDetailsService.class);
+
     @Override
-    public CustomerDetailsDto getByMobileNumber(String mobileNumber) {
+    public CustomerDetailsDto getByMobileNumber(String correlationId, String mobileNumber) {
+
+        logger.debug("[{}]: Getting details from downstream services by mobile number {}", correlationId, mobileNumber);
+
         AccountDto accountDto = iAccountService.getByCustomerMobileNumber(mobileNumber);
-        ResponseEntity<CardDto> responseEntityCardDto = cardsFeignClient.getByMobileNumber(mobileNumber);
-        ResponseEntity<LoanDto> responseEntityLoanDto = loansFeignClient.getByMobileNumber(mobileNumber);
+        ResponseEntity<CardDto> responseEntityCardDto = cardsFeignClient.getByMobileNumber(correlationId, mobileNumber);
+        ResponseEntity<LoanDto> responseEntityLoanDto = loansFeignClient.getByMobileNumber(correlationId, mobileNumber);
 
         CustomerDetailsDto customerDetailsDto = new CustomerDetailsDto();
         customerDetailsDto.setAccountDto(accountDto);
