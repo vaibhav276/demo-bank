@@ -62,6 +62,7 @@ A correlation ID is added to header of each request in Gateway server code (all 
 #### Circuit Breaker Pattern
 Circuit breakers are implemented using [Resilience4j](https://resilience4j.readme.io/docs/circuitbreaker) in:
 * Gateway Server
+* Accounts server for `/api/v1/customers` endpoint because it internally depends on other services
 
 ## Deployment
 ### Build

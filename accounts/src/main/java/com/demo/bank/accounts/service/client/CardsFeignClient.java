@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.demo.bank.accounts.constants.AccountsConstants;
 import com.demo.bank.accounts.dto.CardDto;
 
-@FeignClient("cards")
+@FeignClient(name = "cards", fallback = CardsFallback.class)
 public interface CardsFeignClient {
     
     @GetMapping(value = "/api/v1/cards", consumes = "application/json")
