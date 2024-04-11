@@ -76,6 +76,13 @@ Request timeouts are globally configured in Gateway server
 * Gateway server rate limits calls to Cards endpoints by maintaining configuration in [Redis](https://redis.io/)
 * Accounts server's `/info/contact` endpoint has rate limit fallback defined over it. The fallback will just return null response when too many requests are coming to the endpoint. 
 
+> [!info] branch: resilience
+>
+> A separate branch is maintained for resilience config including Redis
+
+### Observability
+Logs are collected, aggregated and made searchable using the [Grafana, Loki, Promtail stack](https://grafana.com/docs/loki/latest/get-started/quick-start/)
+
 ## Deployment
 ### Build
 The service docker images can be built using these commands
