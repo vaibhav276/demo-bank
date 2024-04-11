@@ -11,7 +11,7 @@ There are three main business services:
 * [H2](https://h2database.com/html/main.html) - for quick testing
 * [MySQL](https://www.mysql.com/) - for actual deployment
 
-> [!info] branch: mysql
+> [!NOTE] branch: mysql
 >
 > A separate branch is maintained for MySQL based architecture
 
@@ -28,7 +28,7 @@ The Config server microservice automatically updates itself when there are chang
 
 [RabbitMQ](https://www.rabbitmq.com/) is used as queuing service to relay configuration updates to all microservices.
 
-> [!info] branch: `rabbitmq-busrefresh`
+> [!NOTE] branch: `rabbitmq-busrefresh`
 > 
 > A separate branch is maintained for RabbitMQ based busrefresh architecture.
 
@@ -76,7 +76,7 @@ Request timeouts are globally configured in Gateway server
 * Gateway server rate limits calls to Cards endpoints by maintaining configuration in [Redis](https://redis.io/)
 * Accounts server's `/info/contact` endpoint has rate limit fallback defined over it. The fallback will just return null response when too many requests are coming to the endpoint. 
 
-> [!info] branch: resilience
+> [!NOTE] branch: resilience
 >
 > A separate branch is maintained for resilience config including Redis
 
