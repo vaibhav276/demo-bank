@@ -72,6 +72,9 @@ Request timeouts are globally configured in Gateway server
 * Account server's `/info/build` endpoint has retry fallback method defined over it
 * Gateway server has configuration to make sure circuit breaker timeout is greater than retry timeout
 
+#### Rate Limiting
+* Gateway server rate limits calls to Cards endpoints by maintaining configuration in [Redis](https://redis.io/)
+
 ## Deployment
 ### Build
 The service docker images can be built using these commands
