@@ -1,5 +1,5 @@
 # Demo bank
-This is a project to demo a group of microservices and infrastructure components, mainly using Spring ecosystem projects.
+This is a project to demo a group of microservices and infrastructure components, mainly using Spring ecosystem projects. It serves as a collection of code snippets for many best practices.
 
 ## Architecture
 There are three main business services:
@@ -74,7 +74,7 @@ Request timeouts are globally configured in Gateway server
 
 #### Rate Limiting
 * Gateway server rate limits calls to Cards endpoints by maintaining configuration in [Redis](https://redis.io/)
-* Accounts server's `/info/contact` endpoint has rate limit fallback defined over it 
+* Accounts server's `/info/contact` endpoint has rate limit fallback defined over it. The fallback will just return null response when too many requests are coming to the endpoint. 
 
 ## Deployment
 ### Build

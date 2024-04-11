@@ -55,7 +55,7 @@ info:
   app:
     name: loans
     description: Demo bank loans service
-    version: 0.5.0
+    version: 0.6.0
 
 endpoints:
   shutdown:
