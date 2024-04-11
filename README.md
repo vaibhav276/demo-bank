@@ -74,6 +74,7 @@ Request timeouts are globally configured in Gateway server
 
 #### Rate Limiting
 * Gateway server rate limits calls to Cards endpoints by maintaining configuration in [Redis](https://redis.io/)
+* Accounts server's `/info/contact` endpoint has rate limit fallback defined over it 
 
 ## Deployment
 ### Build
