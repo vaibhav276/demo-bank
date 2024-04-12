@@ -87,6 +87,9 @@ Logs are collected, aggregated and made searchable using the [Grafana, Loki, Pro
 #### Metrics aggregation
 Metrics are collected, aggregated and made searchable using [Micrometer and Prometheus](https://docs.micrometer.io/micrometer/reference/implementations/prometheus.html) connected to [Grafana](https://grafana.com/)
 
+#### Tracability
+All logs have `[{appName, traceId, scanId}]` attached to them by means of global configuration using [OpenTelemetry](https://opentelemetry.io/), [Tempo](https://grafana.com/docs/tempo/latest/) and [Grafana](https://grafana.com/). This makes it possible not only to trace each requests across services, but also identify any performance or networking issues in between them by collecting timing data on each internal operation.
+
 ## Deployment
 ### Build
 The service docker images can be built using these commands

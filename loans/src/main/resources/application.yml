@@ -59,7 +59,7 @@ info:
   app:
     name: loans
     description: Demo bank loans service
-    version: 0.7.0
+    version: 0.8.0
 
 endpoints:
   shutdown:
@@ -71,3 +71,5 @@ logging:
       demo:
         bank:
           loans: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"

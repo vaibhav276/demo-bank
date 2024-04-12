@@ -9,7 +9,6 @@ import com.demo.bank.accounts.dto.AccountDto;
 import com.demo.bank.accounts.dto.CardDto;
 import com.demo.bank.accounts.dto.CustomerDetailsDto;
 import com.demo.bank.accounts.dto.LoanDto;
-import com.demo.bank.accounts.mapper.AccountMapper;
 import com.demo.bank.accounts.mapper.CustomerDetailsMapper;
 import com.demo.bank.accounts.service.IAccountService;
 import com.demo.bank.accounts.service.ICustomerDetailsService;
@@ -31,11 +30,18 @@ public class CustomerDetailsService implements ICustomerDetailsService {
     @Override
     public CustomerDetailsDto getByMobileNumber(String correlationId, String mobileNumber) {
 
-        logger.debug("[{}]: Getting details from upstream services by mobile number {}", correlationId, mobileNumber);
+        //TODO: Remove unused correlationId field
+
+        logger.debug("Getting details from upstream services by mobile number {}", mobileNumber);
 
         AccountDto accountDto = iAccountService.getByCustomerMobileNumber(mobileNumber);
+
+        logger.debug("Calling Cards service to get details by mobile number");
         ResponseEntity<CardDto> responseEntityCardDto = cardsFeignClient.getByMobileNumber(correlationId, mobileNumber);
+        logger.debug("Calling Cards service to get details by mobile number - Done");
+        logger.debug("Calling Loans service to get details by mobile number");
         ResponseEntity<LoanDto> responseEntityLoanDto = loansFeignClient.getByMobileNumber(correlationId, mobileNumber);
+        logger.debug("Calling Loans service to get details by mobile number - Done");
 
         CustomerDetailsDto customerDetailsDto = new CustomerDetailsDto();
         customerDetailsDto.setAccountDto(accountDto);

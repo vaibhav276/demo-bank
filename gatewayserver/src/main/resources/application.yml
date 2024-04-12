@@ -65,7 +65,7 @@ info:
   app:
     name: gateway
     description: Demo bank gateway service
-    version: 0.7.0
+    version: 0.8.0
 
 logging:
   level:
@@ -73,6 +73,8 @@ logging:
       demo:
         bank:
           gatewayserver: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
 
 resilience4j.circuitbreaker:
   configs:

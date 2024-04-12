@@ -56,7 +56,7 @@ public class CardService implements ICardService {
     @Override
     public CardDto getByMobileNumber(String correlationId, String mobileNumber) {
 
-        logger.debug("[{}]: Getting card by mobile number {}", correlationId, mobileNumber);
+        logger.debug("Getting card by mobile number {}", mobileNumber);
 
         Card card = cardsRepository.findByMobileNumber(mobileNumber).orElseThrow(
             () -> new ResourceNotFoundException("Card", "mobileNumber", mobileNumber)

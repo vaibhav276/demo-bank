@@ -63,7 +63,7 @@ info:
   app:
     name: accounts
     description: Demo bank accounts service
-    version: 0.7.0
+    version: 0.8.0
 
 endpoints:
   shutdown:
@@ -75,6 +75,8 @@ logging:
       demo:
         bank:
           accounts: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
 
 resilience4j.circuitbreaker:
   configs:

@@ -52,7 +52,7 @@ public class LoanServiceImpl implements ILoanService {
     @Override
     public LoanDto getByMobileNumber(String correlationId, String mobileNumber) {
 
-        logger.debug("[{}]: Getting loan for mobile number {}", correlationId, mobileNumber);
+        logger.debug("Getting loan for mobile number {}", mobileNumber);
 
         Loan loan = loansRepository.findByMobileNumber(mobileNumber).orElseThrow(
             () -> new ResourceNotFoundException("Loan", "mobileNumber", mobileNumber)
