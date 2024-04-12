@@ -47,6 +47,10 @@ management:
         enabled: true
     gateway:
       enabled: true
+  # tags for metrics in Prometheus
+  metrics:
+    tags:
+     application: ${spring.application.name}
 
 eureka:
   instance:
@@ -61,7 +65,7 @@ info:
   app:
     name: gateway
     description: Demo bank gateway service
-    version: 0.6.0
+    version: 0.7.0
 
 logging:
   level:

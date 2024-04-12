@@ -81,7 +81,11 @@ Request timeouts are globally configured in Gateway server
 > A separate branch is maintained for resilience config including Redis
 
 ### Observability
+#### Log aggregation
 Logs are collected, aggregated and made searchable using the [Grafana, Loki, Promtail stack](https://grafana.com/docs/loki/latest/get-started/quick-start/)
+
+#### Metrics aggregation
+Metrics are collected, aggregated and made searchable using [Micrometer and Prometheus](https://docs.micrometer.io/micrometer/reference/implementations/prometheus.html) connected to [Grafana](https://grafana.com/)
 
 ## Deployment
 ### Build

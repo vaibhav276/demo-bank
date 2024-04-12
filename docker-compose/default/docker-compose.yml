@@ -1,6 +1,6 @@
 services:
 
-  # Observability - Grafana, Loki, Promtail stack - start
+  # Observability - Grafana, Loki, Promtail, Prometheus stack - start
   read:
     image: grafana/loki:2.9.2
     command: "-config.file=/etc/loki/config.yaml -target=read"
@@ -92,20 +92,9 @@ services:
       - sh
       - -euc
       - |
-        mkdir -p /etc/grafana/provisioning/datasources
-        cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
-        apiVersion: 1
-        datasources:
-          - name: Loki
-            type: loki
-            access: proxy
-            url: http://gateway:3100
-            jsonData:
-              httpHeaderName1: "X-Scope-OrgID"
-            secureJsonData:
-              httpHeaderValue1: "tenant1"
-        EOF
         /run.sh
+    volumes:
+      - ../observability/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
     ports:
       - "3000:3000"
     healthcheck:
@@ -186,10 +175,22 @@ services:
     extends:
       file: common-config.yml
       service: microservice-base-config
-  # Observability - Grafana, Loki, Promtail stack - end
+
+  prometheus:
+    image: prom/prometheus:v2.50.1
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+
+  # Observability - Grafana, Loki, Promtail, Prometheus stack - end
 
   configserver:
-    image: vabhav276/demo-bank-configserver:0.6.0
+    image: vabhav276/demo-bank-configserver:0.7.0
     container_name: configserver-ms
     ports:
       - "8071:8071"
@@ -204,7 +205,7 @@ services:
       service: microservice-base-config
 
   eurekaserver:
-    image: vabhav276/demo-bank-eurekaserver:0.6.0
+    image: vabhav276/demo-bank-eurekaserver:0.7.0
     container_name: eurekaserver-ms
     ports:
       - "8070:8070"
@@ -223,7 +224,7 @@ services:
       service: microservice-configserver-config
 
   accounts:
-    image: vabhav276/demo-bank-accounts:0.6.0
+    image: vabhav276/demo-bank-accounts:0.7.0
     container_name: accounts-ms
     ports:
       - "8080:8080"
@@ -243,7 +244,7 @@ services:
       service: microservice-eureka-config
 
   loans:
-    image: vabhav276/demo-bank-loans:0.6.0
+    image: vabhav276/demo-bank-loans:0.7.0
     container_name: loans-ms
     ports:
       - "8090:8090"
@@ -263,7 +264,7 @@ services:
       service: microservice-eureka-config
 
   cards:
-    image: vabhav276/demo-bank-cards:0.6.0
+    image: vabhav276/demo-bank-cards:0.7.0
     container_name: cards-ms
     ports:
       - "9000:9000"
@@ -283,7 +284,7 @@ services:
       service: microservice-eureka-config
 
   gatewayserver:
-    image: vabhav276/demo-bank-gatewayserver:0.6.0
+    image: vabhav276/demo-bank-gatewayserver:0.7.0
     container_name: gatewayserver-ms
     ports:
       - "8072:8072"

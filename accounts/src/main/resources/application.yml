@@ -44,6 +44,10 @@ management:
     health:
       probes:
         enabled: true
+  # tags for metrics in Prometheus
+  metrics:
+    tags:
+     application: ${spring.application.name}
 
 eureka:
   instance:
@@ -59,7 +63,7 @@ info:
   app:
     name: accounts
     description: Demo bank accounts service
-    version: 0.6.0
+    version: 0.7.0
 
 endpoints:
   shutdown:

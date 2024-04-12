@@ -18,3 +18,7 @@ management:
     health:
       probes:
         enabled: true
+  # tags for metrics in Prometheus
+  metrics:
+    tags:
+     application: ${spring.application.name}
