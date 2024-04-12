@@ -1,6 +1,6 @@
 services:
 
-  # Observability - Grafana, Loki, Promtail stack - start
+  # Observability - Grafana, Loki, Promtail, Prometheus stack - start
   read:
     image: grafana/loki:2.9.2
     command: "-config.file=/etc/loki/config.yaml -target=read"
@@ -92,20 +92,9 @@ services:
       - sh
       - -euc
       - |
-        mkdir -p /etc/grafana/provisioning/datasources
-        cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
-        apiVersion: 1
-        datasources:
-          - name: Loki
-            type: loki
-            access: proxy
-            url: http://gateway:3100
-            jsonData:
-              httpHeaderName1: "X-Scope-OrgID"
-            secureJsonData:
-              httpHeaderValue1: "tenant1"
-        EOF
         /run.sh
+    volumes:
+      - ../observability/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
     ports:
       - "3000:3000"
     healthcheck:
@@ -186,7 +175,19 @@ services:
     extends:
       file: common-config.yml
       service: microservice-base-config
-  # Observability - Grafana, Loki, Promtail stack - end
+
+  prometheus:
+    image: prom/prometheus:v2.50.1
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+
+  # Observability - Grafana, Loki, Promtail, Prometheus stack - end
 
   configserver:
     image: vabhav276/demo-bank-configserver:0.7.0
