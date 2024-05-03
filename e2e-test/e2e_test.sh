@@ -2,9 +2,16 @@
 
 MOBILE_NUMBER=9087654321
 GATEWAY_SERVER=":8072"
+CLIENT_SECRET=I8nmVhV0uFZ7IOERm59E00cXfGA4yJ9L
+
+echo "Obtaining access token..."
+http --form POST :7080/realms/master/protocol/openid-connect/token grant_type=client_credentials client_id=demobank-callcenter-cc client_secret=$CLIENT_SECRET scope="openid email profile" > get_token.json
+ACCESS_TOKEN=`cat get_token.json | jq -r .access_token`
+
+echo "Access token = $ACCESS_TOKEN"
 
 echo "Creating a new account for customer with mobile number 9087654321..."
-http POST :8072/demobank/accounts/api/v1/accounts name="Bruce Wayne" email="bruce@wayne.com" mobileNumber="9087654321"
+http POST :8072/demobank/accounts/api/v1/accounts name="Bruce Wayne" email="bruce@wayne.com" mobileNumber="9087654321" -A bearer -a $ACCESS_TOKEN
 
 echo "Getting details of account with mobile number ${MOBILE_NUMBER}..."
 http ${GATEWAY_SERVER}/demobank/accounts/api/v1/accounts mobileNumber==${MOBILE_NUMBER} > get_account.json
