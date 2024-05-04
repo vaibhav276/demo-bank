@@ -3,11 +3,15 @@ package com.demo.bank.accounts.service.impl;
 import java.util.Optional;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 
 import com.demo.bank.accounts.constants.AccountsConstants;
 import com.demo.bank.accounts.constants.ExceptionMessages;
 import com.demo.bank.accounts.dto.AccountDto;
+import com.demo.bank.accounts.dto.AccountsMsgDto;
 import com.demo.bank.accounts.dto.CustomerDto;
 import com.demo.bank.accounts.entity.Account;
 import com.demo.bank.accounts.entity.Customer;
@@ -28,6 +32,9 @@ public class AccountServiceImpl implements IAccountService {
 
     AccountRepository accountRepository;
     CustomerRepository customerRepository;
+    private final StreamBridge streamBridge;
+
+    private static final Logger log = LoggerFactory.getLogger(AccountServiceImpl.class);
 
     @Override
     public void createAccount(CustomerDto customerDto) {
@@ -42,7 +49,17 @@ public class AccountServiceImpl implements IAccountService {
         }
 
         Customer savedCustomer = customerRepository.save(customer);
-        accountRepository.save(createNewAccount(savedCustomer));
+        Account savedAccount = accountRepository.save(createNewAccount(savedCustomer));
+
+        sendCommunication(savedAccount, savedCustomer);
+    }
+
+    private void sendCommunication(Account account, Customer customer) {
+        var accountsMsgDto = new AccountsMsgDto(account.getAccountNumber(), customer.getName(),
+                customer.getEmail(), customer.getMobileNumber());
+        log.info("Sending Communication request for the details: {}", accountsMsgDto);
+        var result = streamBridge.send("sendCommunication-out-0", accountsMsgDto);
+        log.info("Is the Communication request successfully triggered ? : {}", result);
     }
 
     private Account createNewAccount(Customer customer) {
@@ -139,4 +156,17 @@ public class AccountServiceImpl implements IAccountService {
         return true;
     }
 
+    @Override
+    public boolean updateCommunicationStatus(Long accountNumber) {
+        boolean isUpdated = false;
+        if(accountNumber !=null ){
+            Account account = accountRepository.findById(accountNumber).orElseThrow(
+                    () -> new ResourceNotFoundException("Account", "AccountNumber", accountNumber.toString())
+            );
+            account.setCommunicationSw(true);
+            accountRepository.save(account);
+            isUpdated = true;
+        }
+        return  isUpdated;
+    }
 }
