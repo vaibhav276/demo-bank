@@ -90,6 +90,15 @@ Metrics are collected, aggregated and made searchable using [Micrometer and Prom
 #### Tracability
 All logs have `[{appName, traceId, scanId}]` attached to them by means of global configuration using [OpenTelemetry](https://opentelemetry.io/), [Tempo](https://grafana.com/docs/tempo/latest/) and [Grafana](https://grafana.com/). This makes it possible not only to trace each requests across services, but also identify any performance or networking issues in between them by collecting timing data on each internal operation.
 
+### Security
+[OpenID](https://openid.net/) and [OAuth 2.0](https://oauth.net/2/) are used for authentication and authorization. Following grant types are enabled:
+1. Client Credentials Flow - To enable an external service to interact with demo bank services
+2. Authorization Code Flow - To enable a user to interact (browser based authentication) with demo bank services
+
+[KeyCloak](https://www.keycloak.org/) is used for implementing Authentication Server and [Spring Cloud Security](https://spring.io/projects/spring-cloud-security) is used to enable Resource Server functionality.
+
+Additionally, business services are exposing ports only to API Gateway server.
+
 ## Deployment
 ### Build
 The service docker images can be built using these commands
