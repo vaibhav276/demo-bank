@@ -99,6 +99,10 @@ All logs have `[{appName, traceId, scanId}]` attached to them by means of global
 
 Additionally, business services are exposing ports only to API Gateway server.
 
+### Event driven architecture
+#### Pub-Sub model
+Using [RabbitMQ](https://www.rabbitmq.com/) for pub-sub based async communication between `accounts` and `messages` service. [Spring Cloud Function](https://spring.io/projects/spring-cloud-function) and [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream) are used for implementing interface to RabbitMQ from `accounts` and `messages` services.
+
 ## Deployment
 ### Build
 The service docker images can be built using these commands
@@ -183,5 +187,31 @@ Eureka Server is exposed at - http://localhost:8070/eureka
 The gateway server routes are exposed at - http://localhost:8072/actuator/gateway/routes
 The gateway server circuit breakers are exposed at - http://localhost:8072/actuator/circuitbreakers
 
+### KeyCloak Server
+KeyCloak server UI is exposed at - http://localhost:7080/admin/master/console
+
+### RabbitMQ Management Server
+RabbitMQ Management Server UI is exposed at - http://localhost:15672/#/
+
 ## Automated Testing
 A basic test script using [Httpie](https://httpie.io/docs) and [Jq](https://jqlang.github.io/jq/) can be found inside `e2e-test/` directory
+
+Run `./e2e_test.sh` (after doing below KeyCloak configuration)
+
+### KeyCloak Configuration
+Create the following client in KeyCloak:
+* client name = `demobank-callcenter-cc`
+* client type = `OpenID Connect`
+
+Enable "Client Credentials Flow" for the client
+
+Create following roles in default realm:
+* `ACCOUNTS`
+* `CARDS`
+* `LOANS`
+
+Assign these roles the to client
+
+Expore the following environment variables:
+* CLIENT_ID = `demobank-callcenter-cc`
+* CLIENT_SECRET = (secret value from KeyCloak Console)
