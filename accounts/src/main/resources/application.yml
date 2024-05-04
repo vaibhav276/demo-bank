@@ -78,7 +78,7 @@ info:
   app:
     name: accounts
     description: Demo bank accounts service
-    version: 0.9.0
+    version: 0.10.0
 
 endpoints:
   shutdown:
