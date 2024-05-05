@@ -103,6 +103,13 @@ Additionally, business services are exposing ports only to API Gateway server.
 #### Pub-Sub model
 Using [RabbitMQ](https://www.rabbitmq.com/) for pub-sub based async communication between `accounts` and `messages` service. [Spring Cloud Function](https://spring.io/projects/spring-cloud-function) and [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream) are used for implementing interface to RabbitMQ from `accounts` and `messages` services.
 
+> [!NOTE] branch:`events-rabbitmq`
+>
+> A separate branch is maintained for this implementation. Event streaming model based implementation replaces this one in `main` branch.
+
+#### Event Streaming model
+Using [Apache Kafka](https://kafka.apache.org/) for event streaming based async communication between `accounts` and `messages` service. [Spring Cloud Function](https://spring.io/projects/spring-cloud-function) and [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream) are used for implementing interface to RabbitMQ from `accounts` and `messages` services.
+
 ## Deployment
 ### Build
 The service docker images can be built using these commands
@@ -188,10 +195,18 @@ The gateway server routes are exposed at - http://localhost:8072/actuator/gatewa
 The gateway server circuit breakers are exposed at - http://localhost:8072/actuator/circuitbreakers
 
 ### KeyCloak Server
-KeyCloak server UI is exposed at - http://localhost:7080/admin/master/console
+KeyCloak server can be started by running:
+```sh
+docker run -d -p 7080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:24.0.3 start-dev
+```
+Server UI is exposed at - http://localhost:7080/admin/master/console
 
 ### RabbitMQ Management Server
-RabbitMQ Management Server UI is exposed at - http://localhost:15672/#/
+RabbitMQ Management Server can be started by running:
+```sh
+docker run --rm -d -it --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3.12-management
+```
+Server UI is exposed at - http://localhost:15672/#/
 
 ## Automated Testing
 A basic test script using [Httpie](https://httpie.io/docs) and [Jq](https://jqlang.github.io/jq/) can be found inside `e2e-test/` directory

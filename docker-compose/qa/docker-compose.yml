@@ -1,16 +1,21 @@
 services:
-  rabbit:
-    image: rabbitmq:3.12-management
-    hostname: rabbitmq
+  kafka:
+    image: docker.io/bitnami/kafka:3.7
     ports:
-      - "5672:5672"
-      - "15672:15672"
-    healthcheck:
-      test: rabbitmq-diagnostics check_port_connectivity
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 5s
+      - "9092:9092"
+    volumes:
+      - "kafka_data:/bitnami"
+    environment:
+      # KRaft settings
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      # Listeners
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
     extends:
       file: common-config.yml
       service: network-deploy-service
@@ -232,7 +237,7 @@ services:
   # Observability - Grafana, Loki, Promtail, Prometheus, Tempo - end
 
   configserver:
-    image: vabhav276/demo-bank-configserver:0.10.0
+    image: vabhav276/demo-bank-configserver:0.11.0
     container_name: configserver-ms
     ports:
       - "8071:8071"
@@ -249,7 +254,7 @@ services:
       service: microservice-base-config
 
   eurekaserver:
-    image: vabhav276/demo-bank-eurekaserver:0.10.0
+    image: vabhav276/demo-bank-eurekaserver:0.11.0
     container_name: eurekaserver-ms
     ports:
       - "8070:8070"
@@ -270,7 +275,7 @@ services:
       service: microservice-configserver-config
 
   accounts:
-    image: vabhav276/demo-bank-accounts:0.10.0
+    image: vabhav276/demo-bank-accounts:0.11.0
     container_name: accounts-ms
     healthcheck:
       test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
@@ -283,18 +288,16 @@ services:
         condition: service_healthy
       eurekaserver:
         condition: service_healthy
-      rabbit:
-        condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "accounts"
       OTEL_SERVICE_NAME: accounts
-      SPRING_RABBITMQ_HOST: "rabbit"
+      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
 
   loans:
-    image: vabhav276/demo-bank-loans:0.10.0
+    image: vabhav276/demo-bank-loans:0.11.0
     container_name: loans-ms
     healthcheck:
       test: "curl --fail --silent localhost:8090/actuator/health | grep UP || exit 1"
@@ -315,7 +318,7 @@ services:
       service: microservice-eureka-config
 
   cards:
-    image: vabhav276/demo-bank-cards:0.10.0
+    image: vabhav276/demo-bank-cards:0.11.0
     container_name: cards-ms
     healthcheck:
       test: "curl --fail --silent localhost:9000/actuator/health | grep UP || exit 1"
@@ -336,19 +339,16 @@ services:
       service: microservice-eureka-config
 
   message:
-    image: "vabhav276/demo-bank-message:0.10.0"
+    image: "vabhav276/demo-bank-message:0.11.0"
     container_name: message-ms
-    depends_on:
-      rabbit:
-        condition: service_healthy
     environment:
-      SPRING_RABBITMQ_HOST: "rabbit"
+      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
     extends:
       file: common-config.yml
       service: network-deploy-service
 
   gatewayserver:
-    image: vabhav276/demo-bank-gatewayserver:0.10.0
+    image: vabhav276/demo-bank-gatewayserver:0.11.0
     container_name: gatewayserver-ms
     ports:
       - "8072:8072"
@@ -372,6 +372,10 @@ services:
     extends:
       file: common-config.yml
       service: microservice-eureka-config
+
+volumes:
+  kafka_data:
+    driver: local
 
 networks:
   demo-bank:
