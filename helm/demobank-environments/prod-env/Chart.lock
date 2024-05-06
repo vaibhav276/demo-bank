@@ -1,0 +1,27 @@
+dependencies:
+- name: demobank-common
+  repository: file://../../demobank-common
+  version: 0.1.0
+- name: configserver
+  repository: file://../../demobank-services/configserver
+  version: 0.1.0
+- name: eurekaserver
+  repository: file://../../demobank-services/eurekaserver
+  version: 0.1.0
+- name: accounts
+  repository: file://../../demobank-services/accounts
+  version: 0.1.0
+- name: cards
+  repository: file://../../demobank-services/cards
+  version: 0.1.0
+- name: loans
+  repository: file://../../demobank-services/loans
+  version: 0.1.0
+- name: gatewayserver
+  repository: file://../../demobank-services/gatewayserver
+  version: 0.1.0
+- name: message
+  repository: file://../../demobank-services/message
+  version: 0.1.0
+digest: sha256:243cb3d2cff14ef5b5671e361751e37095826beaeff6555fb6b0e656be51079e
+generated: "2024-05-06T15:54:57.623276185+05:30"

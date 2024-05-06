@@ -1,0 +1,6 @@
+dependencies:
+- name: demobank-common
+  repository: file://../../demobank-common
+  version: 0.1.0
+digest: sha256:e0a2fe8a2fb7ee6e5099b1acbf4517f9c3d1ef25896c436b9d981ae1dc8f8f40
+generated: "2024-05-06T15:40:21.539382495+05:30"

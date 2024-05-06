@@ -237,7 +237,7 @@ services:
   # Observability - Grafana, Loki, Promtail, Prometheus, Tempo - end
 
   configserver:
-    image: vabhav276/demo-bank-configserver:0.11.0
+    image: vabhav276/demo-bank-configserver:1.0.0
     container_name: configserver-ms
     ports:
       - "8071:8071"
@@ -254,7 +254,7 @@ services:
       service: microservice-base-config
 
   eurekaserver:
-    image: vabhav276/demo-bank-eurekaserver:0.11.0
+    image: vabhav276/demo-bank-eurekaserver:1.0.0
     container_name: eurekaserver-ms
     ports:
       - "8070:8070"
@@ -275,7 +275,7 @@ services:
       service: microservice-configserver-config
 
   accounts:
-    image: vabhav276/demo-bank-accounts:0.11.0
+    image: vabhav276/demo-bank-accounts:1.0.0
     container_name: accounts-ms
     healthcheck:
       test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
@@ -297,7 +297,7 @@ services:
       service: microservice-eureka-config
 
   loans:
-    image: vabhav276/demo-bank-loans:0.11.0
+    image: vabhav276/demo-bank-loans:1.0.0
     container_name: loans-ms
     healthcheck:
       test: "curl --fail --silent localhost:8090/actuator/health | grep UP || exit 1"
@@ -318,7 +318,7 @@ services:
       service: microservice-eureka-config
 
   cards:
-    image: vabhav276/demo-bank-cards:0.11.0
+    image: vabhav276/demo-bank-cards:1.0.0
     container_name: cards-ms
     healthcheck:
       test: "curl --fail --silent localhost:9000/actuator/health | grep UP || exit 1"
@@ -339,7 +339,7 @@ services:
       service: microservice-eureka-config
 
   message:
-    image: "vabhav276/demo-bank-message:0.11.0"
+    image: "vabhav276/demo-bank-message:1.0.0"
     container_name: message-ms
     environment:
       SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: "kafka:9092"
@@ -348,7 +348,7 @@ services:
       service: network-deploy-service
 
   gatewayserver:
-    image: vabhav276/demo-bank-gatewayserver:0.11.0
+    image: vabhav276/demo-bank-gatewayserver:1.0.0
     container_name: gatewayserver-ms
     ports:
       - "8072:8072"

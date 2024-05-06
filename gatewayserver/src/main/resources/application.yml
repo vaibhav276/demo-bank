@@ -71,7 +71,7 @@ info:
   app:
     name: gateway
     description: Demo bank gateway service
-    version: 0.11.0
+    version: 1.0.0
 
 logging:
   level:

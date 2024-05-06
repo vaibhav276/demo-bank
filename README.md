@@ -39,10 +39,12 @@ Production ready management APIs (health checks, config refresh etc.) are expose
 [Google Jib](https://cloud.google.com/java/getting-started/jib) is used to build docker containers of all microservices.
 
 ### Infrastructure as Code (IaC)
-IaC is maintained using [Docker compose](https://docs.docker.com/compose/). There are three profiles of running the entire suite of microservices - prod, qa and default. These profiles are maintained in following docker compose directories:
+For local testing, infrastructure is maintained using [Docker compose](https://docs.docker.com/compose/). There are three profiles of running the entire suite of microservices - prod, qa and default. These profiles are maintained in following docker compose directories:
 * `docker-compose/prod`
 * `docker-compose/default`
 * `docker-compose/qa`
+
+Production grade deployment configs are maintained for all three profiles using [Helm](https://helm.sh/) and [Kubernetes](https://kubernetes.io/)
 
 ### Service Registration and Discovery
 Service discovery is implemented using [Spring Cloud Netflix - Eureka Server](https://spring.io/projects/spring-cloud-netflix), where each service registers with the Eureka server and sends periodic heartbeats.
