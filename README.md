@@ -2,6 +2,8 @@
 This is a project to demo a group of microservices and infrastructure components, mainly using Spring ecosystem projects. It serves as a collection of code snippets for many best practices.
 
 ## Architecture
+![business-context](./business-context.drawio.svg)
+
 There are three main business services:
 * [Accounts](./accounts/)
 * [Loans](./loans/)
@@ -11,9 +13,8 @@ There are three main business services:
 * [H2](https://h2database.com/html/main.html) - for quick testing
 * [MySQL](https://www.mysql.com/) - for actual deployment
 
-> [!NOTE] branch: mysql
->
-> A separate branch is maintained for MySQL based architecture
+> [!NOTE]
+> A separate branch `mysql` is maintained for MySQL based architecture
 
 ### API documentation
 APIs are documented using Open API specs, automatically generated using [Spring DOC](https://springdoc.org/). Consequently, API documents in swagger format are exposed on respective ports where services run.
@@ -28,9 +29,8 @@ The Config server microservice automatically updates itself when there are chang
 
 [RabbitMQ](https://www.rabbitmq.com/) is used as queuing service to relay configuration updates to all microservices.
 
-> [!NOTE] branch: `rabbitmq-busrefresh`
-> 
-> A separate branch is maintained for RabbitMQ based busrefresh architecture.
+> [!NOTE]
+> A separate branch `rabbitmq-busrefresh` is maintained for RabbitMQ based busrefresh architecture.
 
 ### Management APIs
 Production ready management APIs (health checks, config refresh etc.) are exposed using [Spring boot actuator](https://docs.spring.io/spring-boot/docs/2.5.6/reference/html/actuator.html)
@@ -78,9 +78,8 @@ Request timeouts are globally configured in Gateway server
 * Gateway server rate limits calls to Cards endpoints by maintaining configuration in [Redis](https://redis.io/)
 * Accounts server's `/info/contact` endpoint has rate limit fallback defined over it. The fallback will just return null response when too many requests are coming to the endpoint. 
 
-> [!NOTE] branch: resilience
->
-> A separate branch is maintained for resilience config including Redis
+> [!NOTE]
+> A separate branch `resilience` is maintained for resilience config including Redis
 
 ### Observability
 #### Log aggregation
@@ -105,9 +104,8 @@ Additionally, business services are exposing ports only to API Gateway server.
 #### Pub-Sub model
 Using [RabbitMQ](https://www.rabbitmq.com/) for pub-sub based async communication between `accounts` and `messages` service. [Spring Cloud Function](https://spring.io/projects/spring-cloud-function) and [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream) are used for implementing interface to RabbitMQ from `accounts` and `messages` services.
 
-> [!NOTE] branch:`events-rabbitmq`
->
-> A separate branch is maintained for this implementation. Event streaming model based implementation replaces this one in `main` branch.
+> [!NOTE]
+> A separate branch `events-rabbitmq` is maintained for this implementation. Event streaming model based implementation replaces this one in `main` branch.
 
 #### Event Streaming model
 Using [Apache Kafka](https://kafka.apache.org/) for event streaming based async communication between `accounts` and `messages` service. [Spring Cloud Function](https://spring.io/projects/spring-cloud-function) and [Spring Cloud Stream](https://spring.io/projects/spring-cloud-stream) are used for implementing interface to RabbitMQ from `accounts` and `messages` services.
